@@ -1202,6 +1202,7 @@ export default function Timetable() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingSlot, setEditingSlot] = useState<TimeSlot | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [errorMsg, setError] = useState<string | null>(null);
 
   // Parent-specific state
   const [linkedStudents, setLinkedStudents] = useState<LinkedStudent[]>([]);
@@ -1900,10 +1901,9 @@ export default function Timetable() {
                 onClick={() => setSelectedStudentId(child.student_id)}
                 className={`
                   px-6 py-2.5 rounded-xl font-medium transition-all duration-300 whitespace-nowrap
-                  ${
-                    selectedStudentId === child.student_id
-                      ? 'gradient-primary text-white shadow-glow'
-                      : 'bg-white text-gray-600 hover:bg-white/80'
+                  ${selectedStudentId === child.student_id
+                    ? 'gradient-primary text-white shadow-glow'
+                    : 'bg-white text-gray-600 hover:bg-white/80'
                   }
                 `}
               >
@@ -1963,10 +1963,9 @@ export default function Timetable() {
                 onClick={() => setSelectedClass(cls.id)}
                 className={`
                   px-6 py-2.5 rounded-xl font-medium transition-all duration-300 whitespace-nowrap
-                  ${
-                    selectedClass === cls.id
-                      ? 'gradient-primary text-white shadow-glow'
-                      : 'bg-white text-gray-600 hover:bg-white/80'
+                  ${selectedClass === cls.id
+                    ? 'gradient-primary text-white shadow-glow'
+                    : 'bg-white text-gray-600 hover:bg-white/80'
                   }
                 `}
               >
@@ -2005,10 +2004,9 @@ export default function Timetable() {
                 onClick={() => setSelectedDay(day)}
                 className={`
                   px-6 py-3 rounded-xl font-medium transition-all duration-300 whitespace-nowrap
-                  ${
-                    selectedDay === day
-                      ? 'bg-white text-[#1E88E5] shadow-soft'
-                      : 'text-gray-600 hover:bg-white/60'
+                  ${selectedDay === day
+                    ? 'bg-white text-[#1E88E5] shadow-soft'
+                    : 'text-gray-600 hover:bg-white/60'
                   }
                 `}
               >

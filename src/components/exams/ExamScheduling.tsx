@@ -4,15 +4,15 @@ import { ExamSchedule, Subject, Class, ExamFormData } from '../../types/Exam'
 import ExamForm from './ExamForm';
 import ExamCalendar from './ExamCalendar';
 import ExamList from './ExamList';
-import { 
-  Calendar, 
-  Clock, 
-  List, 
-  Plus, 
-  Search, 
-  Filter, 
-  BookOpen, 
-  Users, 
+import {
+  Calendar,
+  Clock,
+  List,
+  Plus,
+  Search,
+  Filter,
+  BookOpen,
+  Users,
   Calendar as CalendarIcon,
   CheckCircle,
   Play,
@@ -43,7 +43,7 @@ const ExamScheduling: React.FC = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      
+
       const { data: examData, error: examError } = await supabase
         .from('exam_schedules')
         .select(`
@@ -92,17 +92,17 @@ const ExamScheduling: React.FC = () => {
       setExams(examData || []);
       setSubjects(subjectData || []);
       setClasses(classData || []);
-      
+
     } catch (error: unknown) {
       console.error('Error fetching data:', error);
-      
+
       let errorMessage = 'Failed to load data';
       if (error && typeof error === 'object' && 'message' in error) {
         errorMessage = String(error.message);
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       alert(`Error loading data: ${errorMessage}`);
     } finally {
       setLoading(false);
@@ -143,14 +143,14 @@ const ExamScheduling: React.FC = () => {
       }
     } catch (error: unknown) {
       console.error('Error creating exam:', error);
-      
+
       let errorMessage = 'Failed to create exam';
       if (error && typeof error === 'object' && 'message' in error) {
         errorMessage = String(error.message);
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       alert(`Error creating exam: ${errorMessage}`);
     }
   };
@@ -190,14 +190,14 @@ const ExamScheduling: React.FC = () => {
       }
     } catch (error: unknown) {
       console.error('Error updating exam:', error);
-      
+
       let errorMessage = 'Failed to update exam';
       if (error && typeof error === 'object' && 'message' in error) {
         errorMessage = String(error.message);
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       alert(`Error updating exam: ${errorMessage}`);
     }
   };
@@ -246,11 +246,11 @@ const ExamScheduling: React.FC = () => {
 
   // Filter exams based on search and filters
   const filteredExams = exams.filter(exam => {
-    const matchesSearch = searchTerm === '' || 
+    const matchesSearch = searchTerm === '' ||
       exam.exam_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       exam.subjects?.subject_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       exam.classes?.class_name.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesStatus = statusFilter === 'all' || exam.status === statusFilter;
     const matchesClass = classFilter === 'all' || exam.class_id === classFilter;
 
@@ -279,14 +279,14 @@ const ExamScheduling: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F6F9FC] p-8">
       <div className="max-w-[1600px] mx-auto space-y-7">
-        
+
         {/* Header Section */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 
+            <h1
               className="text-gray-900"
-              style={{ 
-                fontSize: '32px', 
+              style={{
+                fontSize: '32px',
                 fontWeight: 600,
                 letterSpacing: '-0.02em',
                 lineHeight: 1.2
@@ -294,14 +294,14 @@ const ExamScheduling: React.FC = () => {
             >
               Exam Scheduling
             </h1>
-            <p 
-              className="text-gray-600 mt-2" 
+            <p
+              className="text-gray-600 mt-2"
               style={{ fontSize: '15px', fontWeight: 400 }}
             >
               Manage and schedule examinations for all classes
             </p>
           </div>
-          
+
           {/* Action Button */}
           <button
             onClick={() => setShowForm(true)}
@@ -322,7 +322,7 @@ const ExamScheduling: React.FC = () => {
                 <Calendar className="w-7 h-7 text-blue-500" />
               </div>
               <div>
-                <p 
+                <p
                   className="text-gray-900"
                   style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em' }}
                 >
@@ -334,14 +334,14 @@ const ExamScheduling: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-[20px] p-6 shadow-soft border border-gray-100 hover:shadow-float transition-all duration-300">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 bg-blue-50 rounded-[16px] flex items-center justify-center">
                 <BookOpen className="w-7 h-7 text-blue-500" />
               </div>
               <div>
-                <p 
+                <p
                   className="text-gray-900"
                   style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em' }}
                 >
@@ -361,7 +361,7 @@ const ExamScheduling: React.FC = () => {
                 <Users className="w-7 h-7 text-blue-500" />
               </div>
               <div>
-                <p 
+                <p
                   className="text-gray-900"
                   style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em' }}
                 >
@@ -379,12 +379,12 @@ const ExamScheduling: React.FC = () => {
         {/* Filters Section */}
         <div className="bg-white rounded-[20px] p-6 shadow-soft border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            
+
             {/* Search */}
             <div className="relative group">
-              <Search 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" 
-                size={18} 
+              <Search
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+                size={18}
               />
               <input
                 type="text"
@@ -439,11 +439,10 @@ const ExamScheduling: React.FC = () => {
             <div className="flex rounded-xl overflow-hidden bg-gray-50 border border-gray-200 p-1">
               <button
                 onClick={() => setViewMode('calendar')}
-                className={`flex-1 px-4 py-2 flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 ${
-                  viewMode === 'calendar'
+                className={`flex-1 px-4 py-2 flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 ${viewMode === 'calendar'
                     ? 'gradient-primary text-white shadow-sm'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
-                }`}
+                  }`}
                 style={{ fontSize: '14px' }}
               >
                 <Calendar size={16} />
@@ -451,11 +450,10 @@ const ExamScheduling: React.FC = () => {
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`flex-1 px-4 py-2 flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 ${
-                  viewMode === 'list'
+                className={`flex-1 px-4 py-2 flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 ${viewMode === 'list'
                     ? 'gradient-primary text-white shadow-sm'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-white'
-                }`}
+                  }`}
                 style={{ fontSize: '14px' }}
               >
                 <List size={16} />
@@ -487,11 +485,9 @@ const ExamScheduling: React.FC = () => {
         {/* Form Modal */}
         {(showForm || editingExam) && (
           <ExamForm
-            subjects={subjects}
-            classes={classes}
             initialData={editingExam}
-            onSubmit={editingExam ? 
-              (data) => handleUpdateExam(editingExam.id, data) : 
+            onSubmit={editingExam ?
+              (data) => handleUpdateExam(editingExam.id, data) :
               handleCreateExam
             }
             onClose={() => {

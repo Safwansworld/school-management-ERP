@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
-  
+
   // Track ongoing profile fetches to prevent duplicates
   const fetchingProfileRef = useRef<string | null>(null);
   const profileCacheRef = useRef<Map<string, UserProfile>>(new Map());
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchUserProfile = useCallback(async (userId: string): Promise<UserProfile | null> => {
     try {
       console.log('📋 Fetching user profile for:', userId);
-      
+
       // Check cache first
       if (profileCacheRef.current.has(userId)) {
         console.log('💾 Using cached profile');
@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Mark as fetching
       fetchingProfileRef.current = userId;
-      
+
       // Add timeout protection - 10 seconds
       const timeoutPromise = new Promise<null>((_, reject) => {
         setTimeout(() => reject(new Error('Profile fetch timeout')), 10000);
@@ -104,11 +104,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       console.log('✅ Profile fetched:', profile);
-      
+
       // Cache the profile
       profileCacheRef.current.set(userId, profile);
       fetchingProfileRef.current = null;
-      
+
       return profile;
     } catch (error) {
       console.error('❌ Error fetching profile:', error);
@@ -129,10 +129,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     console.log('👤 Updating user state for:', authUser.id);
-    
+
     try {
       const profile = await fetchUserProfile(authUser.id);
-      
+
       if (!profile) {
         console.warn('⚠️ Could not load profile, keeping user signed in with basic info');
         // Still set the user but without profile
@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUserProfile(null);
         return;
       }
-      
+
       setUserProfile(profile);
 
       const extendedUser: ExtendedUser = {
@@ -165,7 +165,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    */
   useEffect(() => {
     let isMounted = true;
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const initSession = async () => {
       try {
@@ -193,7 +193,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.log('✅ Session initialization complete');
       } catch (error) {
         console.error('❌ Error initializing session:', error);
-        
+
         if (isMounted) {
           setSession(null);
           setUser(null);
@@ -223,37 +223,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * Listen for auth state changes with deduplication
    */
   useEffect(() => {
-  let isMounted = true;
-  let lastProcessedUser: string | null = null;
-  console.log('👂 Setting up auth state listener...');
+    let isMounted = true;
+    let lastProcessedUser: string | null = null;
+    console.log('👂 Setting up auth state listener...');
 
-  const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('🔔 Auth state changed:', event);
-      
-    if (!isMounted || !initialized) return;
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('🔔 Auth state changed:', event);
 
-    if (session?.user) {
-      // Only update if user actually changed
-      if (session.user.id !== lastProcessedUser) {
-        lastProcessedUser = session.user.id;
-        await updateUserState(session.user);
+      if (!isMounted || !initialized) return;
+
+      if (session?.user) {
+        // Only update if user actually changed
+        if (session.user.id !== lastProcessedUser) {
+          lastProcessedUser = session.user.id;
+          await updateUserState(session.user);
+        }
+      } else {
+        lastProcessedUser = null;
+        setUser(null);
+        setUserProfile(null);
+        profileCacheRef.current.clear();
       }
-    } else {
-      lastProcessedUser = null;
-      setUser(null);
-      setUserProfile(null);
-      profileCacheRef.current.clear();
-    }
 
-    setSession(session);
-    setLoading(false);
-  });
+      setSession(session);
+      setLoading(false);
+    });
 
-  return () => {
-    isMounted = false;
-    listener?.subscription.unsubscribe();
-  };
-}, [initialized, updateUserState]);
+    return () => {
+      isMounted = false;
+      listener?.subscription.unsubscribe();
+    };
+  }, [initialized, updateUserState]);
 
 
   /**
@@ -263,16 +263,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       console.log('🔑 Logging in...');
       setLoading(true);
-      
+
       const result = await authService.login(credentials);
       console.log('✅ Login successful:', result);
-      
+
       // Clear profile cache on login
       profileCacheRef.current.clear();
-      
+
       // Wait for auth state change to process
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       return result;
     } catch (error) {
       console.error('❌ Login error:', error);
@@ -323,13 +323,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('🔍 Checking email verification status...');
       const isVerified = await authService.checkEmailVerificationStatus();
       console.log('📋 Verification status:', isVerified);
-      
+
       // Clear cache and refresh profile if verified
       if (isVerified && user) {
         profileCacheRef.current.delete(user.id);
         await updateUserState(user);
       }
-      
+
       return isVerified;
     } catch (error) {
       console.error('❌ Check verification error:', error);
@@ -345,13 +345,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('🔒 Changing password...');
       const result = await authService.changePassword(newPassword);
       console.log('✅ Password changed');
-      
+
       // Clear cache and refresh profile
       if (user) {
         profileCacheRef.current.delete(user.id);
         await updateUserState(user);
       }
-      
+
       return result;
     } catch (error) {
       console.error('❌ Password change error:', error);
@@ -366,10 +366,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return;
     console.log('🔄 Manually refreshing profile...');
     setLoading(true);
-    
+
     // Clear cache for this user
     profileCacheRef.current.delete(user.id);
-    
+
     await updateUserState(user);
     setLoading(false);
   }, [user, updateUserState]);
@@ -378,38 +378,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * Memoize context value to prevent unnecessary re-renders
    */
   const contextValue = useMemo(
-  () => ({
-    user,
-    userProfile,
-    session,
-    loading,
-    isAuthenticated: !!user && !!session,
+    () => ({
+      user,
+      userProfile,
+      session,
+      loading,
+      isAuthenticated: !!user && !!session,
 
-    // ✅ Role helpers
-    isAdmin: userProfile?.role === 'admin',
-    isTeacher: userProfile?.role === 'teacher',
-    isStudent: userProfile?.role === 'student',
+      // ✅ Role helpers
+      isAdmin: userProfile?.role === 'admin',
+      isTeacher: userProfile?.role === 'teacher',
+      isStudent: userProfile?.role === 'student',
 
-    login,
-    logout,
-    sendMagicLink,
-    checkEmailVerificationStatus,
-    changePassword,
-    refreshProfile,
-  }),
-  [
-    user,
-    userProfile,
-    session,
-    loading,
-    login,
-    logout,
-    sendMagicLink,
-    checkEmailVerificationStatus,
-    changePassword,
-    refreshProfile,
-  ]
-);
+      login,
+      logout,
+      sendMagicLink,
+      checkEmailVerificationStatus,
+      changePassword,
+      refreshProfile,
+    }),
+    [
+      user,
+      userProfile,
+      session,
+      loading,
+      login,
+      logout,
+      sendMagicLink,
+      checkEmailVerificationStatus,
+      changePassword,
+      refreshProfile,
+    ]
+  );
 
 
 

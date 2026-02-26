@@ -55,7 +55,7 @@ export const useRoleBasedExams = () => {
         const { data: studentProfile, error: studentError } = await supabase
           .from('student_profiles')
           .select('class_id, id')
-          .eq('id', user.id)
+          .eq('id', user!.id)
           .single();
 
         if (studentError) throw studentError;
@@ -99,7 +99,7 @@ export const useRoleBasedExams = () => {
         const { data: linkedStudents, error: linkError } = await supabase
           .from('parent_student_links')
           .select('student_id')
-          .eq('parent_id', user.id);
+          .eq('parent_id', user!.id);
 
         if (linkError) throw linkError;
 

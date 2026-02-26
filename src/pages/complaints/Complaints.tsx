@@ -1,14 +1,14 @@
 // pages/Complaints.tsx
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Plus, 
-  Filter, 
-  Search, 
-  Clock, 
-  AlertCircle, 
-  CheckCircle, 
-  X 
+import {
+  Plus,
+  Filter,
+  Search,
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  X
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { supabase } from '../../lib/supabase';
@@ -35,7 +35,7 @@ export default function Complaints() {
   useEffect(() => {
     fetchComplaints();
     fetchStats();
-    
+
     // Subscribe to real-time updates
     const subscription = supabase
       .channel('complaints_changes')
@@ -261,8 +261,6 @@ export default function Complaints() {
           <ComplaintForm
             onClose={() => setShowForm(false)}
             onSuccess={handleComplaintCreated}
-            user={user}
-            userRole={userRole}
           />
         )}
       </AnimatePresence>
@@ -274,8 +272,6 @@ export default function Complaints() {
             complaint={selectedComplaint}
             onClose={() => setSelectedComplaint(null)}
             onUpdate={handleComplaintUpdate}
-            userRole={userRole}
-            userId={user?.id}
           />
         )}
       </AnimatePresence>

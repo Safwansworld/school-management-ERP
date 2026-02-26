@@ -1640,7 +1640,7 @@
 // //         const upcoming = events.filter(e => e.event_date >= today).length;
 // //         const today_events = events.filter(e => e.event_date === today).length;
 // //         const total = events.length;
-        
+
 // //         return { upcoming, today: today_events, total };
 // //     };
 
@@ -3701,7 +3701,7 @@ const eventConfig = {
 };
 
 const EventsPage: React.FC = () => {
-    const { user, isAdmin, isTeacher, isStudent, isStaff, isParent, loading: authLoading } = useAuth();
+    const { user, isAdmin, isTeacher, isStudent, loading: authLoading } = useAuth();
 
     // State management
     const [events, setEvents] = useState<Event[]>([]);
@@ -3738,7 +3738,7 @@ const EventsPage: React.FC = () => {
         target_roles: [],
         is_published: true,
         max_participants: undefined,
-        created_by: user?.name || '',
+        created_by: user?.email || '',
     });
 
     const startEditEvent = (event: Event) => {
@@ -3797,7 +3797,7 @@ const EventsPage: React.FC = () => {
                 target_roles: [],
                 is_published: true,
                 max_participants: undefined,
-                created_by: user?.name || '',
+                created_by: user?.email || '',
             });
 
             fetchEvents();
@@ -3887,7 +3887,7 @@ const EventsPage: React.FC = () => {
                 .from('event_participants')
                 .insert({
                     event_id: eventId,
-                    user_id: user?.name || '',
+                    user_id: user?.email || '',
                     user_role: userRole,
                     status: 'registered',
                 });
@@ -3916,7 +3916,7 @@ const EventsPage: React.FC = () => {
                 .from('events')
                 .insert({
                     ...eventForm,
-                    created_by: eventForm.created_by || user.name,
+                    created_by: eventForm.created_by || user.email,
                 });
 
             if (error) throw error;
@@ -3933,7 +3933,7 @@ const EventsPage: React.FC = () => {
                 target_roles: [],
                 is_published: true,
                 max_participants: undefined,
-                created_by: user.name,
+                created_by: user.email,
             });
 
             fetchEvents();
@@ -4133,9 +4133,9 @@ const EventsPage: React.FC = () => {
                                     className={`
                                         aspect-square rounded-xl flex items-center justify-center text-sm cursor-pointer
                                         transition-all duration-300 relative
-                                        ${isToday 
-                                            ? 'gradient-primary text-white shadow-glow font-semibold' 
-                                            : hasEvent 
+                                        ${isToday
+                                            ? 'gradient-primary text-white shadow-glow font-semibold'
+                                            : hasEvent
                                                 ? 'bg-white text-primary shadow-soft font-medium'
                                                 : 'bg-white/40 text-foreground hover:bg-white/80'
                                         }
@@ -4259,7 +4259,7 @@ const EventsPage: React.FC = () => {
                 transition={{ delay: 0.3 }}
             >
                 <h3 className="text-foreground mb-4">Upcoming Events</h3>
-                
+
                 {filteredEvents.length === 0 ? (
                     <div className="glass-strong rounded-2xl p-12 shadow-soft text-center">
                         <CalendarIcon className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
@@ -4860,11 +4860,10 @@ const EventsPage: React.FC = () => {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                                                    participant.status === 'registered' ? 'bg-yellow-100 text-yellow-800' :
+                                                <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${participant.status === 'registered' ? 'bg-yellow-100 text-yellow-800' :
                                                         participant.status === 'attended' ? 'bg-green-100 text-green-800' :
                                                             'bg-red-100 text-red-800'
-                                                }`}>
+                                                    }`}>
                                                     {participant.status}
                                                 </span>
                                             </div>

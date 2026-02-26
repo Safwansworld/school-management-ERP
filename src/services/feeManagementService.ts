@@ -402,6 +402,14 @@ export const deleteFeePayment = async (id: string) => {
 
 export const fetchFeeAnalytics = async (academicYear: string) => {
   try {
+    // First get fee structure IDs for the academic year
+    const { data: feeStructureIds } = await supabase
+      .from('fee_structures')
+      .select('id')
+      .eq('academic_year', academicYear);
+
+    const ids = feeStructureIds?.map((s: { id: string }) => s.id) || [];
+
     const [assignmentsRes, paymentsRes] = await Promise.all([
       supabase
         .from('student_fee_assignments')
@@ -410,13 +418,7 @@ export const fetchFeeAnalytics = async (academicYear: string) => {
       supabase
         .from('fee_payments')
         .select('amount_paid')
-        .in(
-          'fee_structure_id',
-          await supabase
-            .from('fee_structures')
-            .select('id')
-            .eq('academic_year', academicYear)
-        ),
+        .in('fee_structure_id', ids),
     ]);
 
     const totalAssigned = (assignmentsRes.data as any[])?.reduce(

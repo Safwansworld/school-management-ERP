@@ -1,23 +1,23 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ExamResult } from '../../types/results';
-import { 
-  Edit, 
-  Trash2, 
-  Eye, 
-  Trophy, 
-  XCircle, 
-  Clock, 
-  CheckCircle, 
-  Calendar, 
-  User, 
-  BookOpen, 
-  Target, 
-  Award, 
-  ChevronRight, 
-  Star, 
-  TrendingUp, 
-  FileText, 
+import {
+  Edit,
+  Trash2,
+  Eye,
+  Trophy,
+  XCircle,
+  Clock,
+  CheckCircle,
+  Calendar,
+  User,
+  BookOpen,
+  Target,
+  Award,
+  ChevronRight,
+  Star,
+  TrendingUp,
+  FileText,
   X,
   Activity
 } from 'lucide-react';
@@ -125,8 +125,8 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
           return 0;
       }
 
-      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+      if ((aValue ?? '') < (bValue ?? '')) return sortConfig.direction === 'asc' ? -1 : 1;
+      if ((aValue ?? '') > (bValue ?? '')) return sortConfig.direction === 'asc' ? 1 : -1;
       return 0;
     });
   }, [results, sortConfig]);
@@ -141,7 +141,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
               <FileText className="w-6 h-6 text-blue-500" />
             </div>
             <div>
-              <h2 
+              <h2
                 className="text-gray-900"
                 style={{ fontSize: '24px', fontWeight: 600, letterSpacing: '-0.015em' }}
               >
@@ -176,7 +176,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
       {/* Table Content */}
       <div className="px-8 py-6">
         {results.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"
@@ -184,7 +184,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
             <div className="w-24 h-24 bg-blue-50 rounded-[20px] flex items-center justify-center mx-auto mb-6">
               <Trophy className="w-12 h-12 text-blue-500" />
             </div>
-            <h3 
+            <h3
               className="text-gray-900 mb-3"
               style={{ fontSize: '20px', fontWeight: 600 }}
             >
@@ -214,7 +214,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
                       onClick={() => handleSort('student')}
                     >
@@ -222,11 +222,10 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         <User size={16} />
                         <span>Student</span>
                         {sortConfig?.key === 'student' && (
-                          <ChevronRight 
-                            size={14} 
-                            className={`transform transition-transform ${
-                              sortConfig.direction === 'desc' ? 'rotate-90' : '-rotate-90'
-                            }`}
+                          <ChevronRight
+                            size={14}
+                            className={`transform transition-transform ${sortConfig.direction === 'desc' ? 'rotate-90' : '-rotate-90'
+                              }`}
                           />
                         )}
                       </div>
@@ -243,7 +242,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         <span>Subject</span>
                       </div>
                     </th>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
                       onClick={() => handleSort('marks')}
                     >
@@ -251,11 +250,10 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         <Target size={16} />
                         <span>Performance</span>
                         {sortConfig?.key === 'marks' && (
-                          <ChevronRight 
-                            size={14} 
-                            className={`transform transition-transform ${
-                              sortConfig.direction === 'desc' ? 'rotate-90' : '-rotate-90'
-                            }`}
+                          <ChevronRight
+                            size={14}
+                            className={`transform transition-transform ${sortConfig.direction === 'desc' ? 'rotate-90' : '-rotate-90'
+                              }`}
                           />
                         )}
                       </div>
@@ -286,11 +284,10 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className={`group transition-all duration-200 ${
-                          hoveredRow === result.id 
-                            ? 'bg-blue-50' 
+                        className={`group transition-all duration-200 ${hoveredRow === result.id
+                            ? 'bg-blue-50'
                             : 'bg-white hover:bg-gray-50'
-                        }`}
+                          }`}
                         onMouseEnter={() => setHoveredRow(result.id)}
                         onMouseLeave={() => setHoveredRow(null)}
                       >
@@ -311,7 +308,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                               )}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p 
+                              <p
                                 className="text-gray-900 truncate"
                                 style={{ fontSize: '14px', fontWeight: 600 }}
                               >
@@ -327,7 +324,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         {/* Exam Details */}
                         <td className="px-6 py-5">
                           <div className="space-y-1">
-                            <p 
+                            <p
                               className="text-gray-900"
                               style={{ fontSize: '14px', fontWeight: 500 }}
                             >
@@ -335,10 +332,10 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                             </p>
                             <p className="text-gray-600 flex items-center" style={{ fontSize: '12px' }}>
                               <Calendar size={12} className="mr-1" />
-                              {new Date(result.exam_schedules?.exam_date).toLocaleDateString('en-US', { 
-                                month: 'short', 
-                                day: 'numeric', 
-                                year: 'numeric' 
+                              {new Date(result.exam_schedules?.exam_date ?? '').toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
                               })}
                             </p>
                           </div>
@@ -347,7 +344,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         {/* Subject */}
                         <td className="px-6 py-5">
                           <div className="space-y-1">
-                            <p 
+                            <p
                               className="text-gray-900"
                               style={{ fontSize: '14px', fontWeight: 500 }}
                             >
@@ -363,7 +360,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                         <td className="px-6 py-5">
                           <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                              <span 
+                              <span
                                 className="text-gray-900"
                                 style={{ fontSize: '14px', fontWeight: 700 }}
                               >
@@ -377,17 +374,16 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                             {/* Progress Bar */}
                             <div className="w-full bg-gray-200 rounded-full h-2">
                               <div
-                                className={`h-2 rounded-full transition-all duration-300 ${
-                                  result.percentage >= 90
+                                className={`h-2 rounded-full transition-all duration-300 ${result.percentage >= 90
                                     ? 'gradient-primary'
                                     : result.percentage >= 80
-                                    ? 'bg-cyan-500'
-                                    : result.percentage >= 70
-                                    ? 'bg-emerald-500'
-                                    : result.percentage >= 50
-                                    ? 'bg-amber-500'
-                                    : 'bg-red-500'
-                                }`}
+                                      ? 'bg-cyan-500'
+                                      : result.percentage >= 70
+                                        ? 'bg-emerald-500'
+                                        : result.percentage >= 50
+                                          ? 'bg-amber-500'
+                                          : 'bg-red-500'
+                                  }`}
                                 style={{ width: `${Math.min(result.percentage, 100)}%` }}
                               ></div>
                             </div>
@@ -399,7 +395,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
 
                         {/* Grade */}
                         <td className="px-6 py-5">
-                          <span 
+                          <span
                             className={`inline-flex items-center px-3 py-1.5 rounded-xl font-bold ${getGradeColor(result.grade)} transform transition-all duration-200 hover:scale-105`}
                             style={{ fontSize: '14px' }}
                           >
@@ -409,7 +405,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
 
                         {/* Status */}
                         <td className="px-6 py-5">
-                          <span 
+                          <span
                             className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl font-medium border ${getStatusColor(result.status)} transform transition-all duration-200 hover:scale-105`}
                             style={{ fontSize: '12px' }}
                           >
@@ -457,7 +453,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
       {/* Enhanced Result Details Modal */}
       {selectedResult && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-[24px] shadow-float w-full max-w-2xl max-h-[90vh] overflow-hidden"
@@ -468,7 +464,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
               <div className="px-6 pb-4 -mt-12">
                 <div className="flex items-start justify-between">
                   <div className="w-20 h-20 gradient-primary rounded-[16px] shadow-soft flex items-center justify-center border-4 border-white">
-                    <span 
+                    <span
                       className="text-white"
                       style={{ fontSize: '20px', fontWeight: 700 }}
                     >
@@ -482,7 +478,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                     <X size={24} className="text-gray-700" />
                   </button>
                 </div>
-                <h3 
+                <h3
                   className="text-gray-900 mt-4"
                   style={{ fontSize: '24px', fontWeight: 600 }}
                 >
@@ -501,7 +497,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                 <div className="bg-blue-50 rounded-[20px] p-6 border border-blue-200">
                   <div className="flex items-center gap-3 mb-4">
                     <User size={20} className="text-blue-600" />
-                    <h4 
+                    <h4
                       className="text-gray-900"
                       style={{ fontSize: '16px', fontWeight: 600 }}
                     >
@@ -511,7 +507,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                   <div className="space-y-3">
                     <div>
                       <p className="text-gray-600" style={{ fontSize: '13px' }}>Full Name</p>
-                      <p 
+                      <p
                         className="text-gray-900"
                         style={{ fontSize: '15px', fontWeight: 600 }}
                       >
@@ -520,7 +516,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                     </div>
                     <div>
                       <p className="text-gray-600" style={{ fontSize: '13px' }}>Roll Number</p>
-                      <p 
+                      <p
                         className="text-gray-900"
                         style={{ fontSize: '15px', fontWeight: 600 }}
                       >
@@ -533,7 +529,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                 <div className="bg-cyan-50 rounded-[20px] p-6 border border-cyan-200">
                   <div className="flex items-center gap-3 mb-4">
                     <BookOpen size={20} className="text-cyan-600" />
-                    <h4 
+                    <h4
                       className="text-gray-900"
                       style={{ fontSize: '16px', fontWeight: 600 }}
                     >
@@ -543,7 +539,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                   <div className="space-y-3">
                     <div>
                       <p className="text-gray-600" style={{ fontSize: '13px' }}>Exam Name</p>
-                      <p 
+                      <p
                         className="text-gray-900"
                         style={{ fontSize: '15px', fontWeight: 600 }}
                       >
@@ -552,7 +548,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                     </div>
                     <div>
                       <p className="text-gray-600" style={{ fontSize: '13px' }}>Subject</p>
-                      <p 
+                      <p
                         className="text-gray-900"
                         style={{ fontSize: '15px', fontWeight: 600 }}
                       >
@@ -561,11 +557,11 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                     </div>
                     <div>
                       <p className="text-gray-600" style={{ fontSize: '13px' }}>Date</p>
-                      <p 
+                      <p
                         className="text-gray-900"
                         style={{ fontSize: '15px', fontWeight: 600 }}
                       >
-                        {new Date(selectedResult.exam_schedules?.exam_date).toLocaleDateString('en-US', {
+                        {new Date(selectedResult.exam_schedules?.exam_date ?? '').toLocaleDateString('en-US', {
                           weekday: 'long',
                           year: 'numeric',
                           month: 'long',
@@ -581,7 +577,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
               <div className="bg-gray-50 rounded-[20px] p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <Target size={20} className="text-blue-500" />
-                  <h4 
+                  <h4
                     className="text-gray-900"
                     style={{ fontSize: '16px', fontWeight: 600 }}
                   >
@@ -591,7 +587,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-                    <div 
+                    <div
                       className="text-gray-900 mb-1"
                       style={{ fontSize: '24px', fontWeight: 700 }}
                     >
@@ -604,7 +600,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                   </div>
 
                   <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-                    <div 
+                    <div
                       className="text-blue-600 mb-1"
                       style={{ fontSize: '24px', fontWeight: 700 }}
                     >
@@ -640,17 +636,16 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className={`h-3 rounded-full transition-all duration-500 ${
-                        selectedResult.percentage >= 90
+                      className={`h-3 rounded-full transition-all duration-500 ${selectedResult.percentage >= 90
                           ? 'gradient-primary'
                           : selectedResult.percentage >= 80
-                          ? 'bg-cyan-500'
-                          : selectedResult.percentage >= 70
-                          ? 'bg-emerald-500'
-                          : selectedResult.percentage >= 50
-                          ? 'bg-amber-500'
-                          : 'bg-red-500'
-                      }`}
+                            ? 'bg-cyan-500'
+                            : selectedResult.percentage >= 70
+                              ? 'bg-emerald-500'
+                              : selectedResult.percentage >= 50
+                                ? 'bg-amber-500'
+                                : 'bg-red-500'
+                        }`}
                       style={{ width: `${Math.min(selectedResult.percentage, 100)}%` }}
                     ></div>
                   </div>
@@ -662,7 +657,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                 <div className="bg-amber-50 rounded-[20px] p-6 border border-amber-200">
                   <div className="flex items-center gap-3 mb-4">
                     <FileText size={20} className="text-amber-600" />
-                    <h4 
+                    <h4
                       className="text-gray-900"
                       style={{ fontSize: '16px', fontWeight: 600 }}
                     >
@@ -679,7 +674,7 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
               <div className="bg-emerald-50 rounded-[20px] p-6 border border-emerald-200">
                 <div className="flex items-center gap-3 mb-4">
                   <Clock size={20} className="text-emerald-600" />
-                  <h4 
+                  <h4
                     className="text-gray-900"
                     style={{ fontSize: '16px', fontWeight: 600 }}
                   >
@@ -690,13 +685,13 @@ const ResultsList: React.FC<ResultsListProps> = ({ results, onEditResult, onDele
                   <span style={{ fontWeight: 500 }}>Evaluated on:</span>{' '}
                   {selectedResult.evaluated_at
                     ? new Date(selectedResult.evaluated_at).toLocaleString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
                     : 'Not yet evaluated'}
                 </p>
               </div>

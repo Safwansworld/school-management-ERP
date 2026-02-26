@@ -747,7 +747,7 @@ interface Notification {
   type: 'info' | 'success' | 'warning' | 'error';
   unread: boolean;
   avatar?: string;
-  icon?: JSX.Element;
+  icon?: React.ReactNode;
 }
 
 // Memoized Notification Item Component
@@ -769,9 +769,8 @@ const NotificationItem = memo(
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
-        className={`p-4 border-b border-gray-100/50 hover:bg-white/60 transition-all duration-200 cursor-pointer group ${
-          notification.unread ? 'bg-blue-50/30' : ''
-        }`}
+        className={`p-4 border-b border-gray-100/50 hover:bg-white/60 transition-all duration-200 cursor-pointer group ${notification.unread ? 'bg-blue-50/30' : ''
+          }`}
       >
         <div className="flex items-start space-x-3">
           <div
@@ -1252,97 +1251,94 @@ const HeaderComponent = ({ onMenuClick, onSearchFocus }: HeaderProps) => {
 
         {/* Quick Actions - Hidden on small screens */}
         <div className="hidden lg:flex items-center gap-3">
-  {/* Events */}
-  <motion.button
-    onClick={() => navigate('/events')}
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
-    className={`relative w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
-      ${location.pathname === '/events' 
-        ? 'bg-[#1E88E5] text-white' 
-        : 'bg-white/80 hover:bg-white text-gray-600'}`}
-  >
-    <Calendar
-      className={`w-5 h-5 transition-colors duration-300 ${
-        location.pathname === '/events'
-          ? 'text-white'
-          : 'group-hover:text-[#1E88E5]'
-      }`}
-    />
-    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-  </motion.button>
-
-  {/* Messages */}
-  <motion.button
-    onClick={() => navigate('/messages')}
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
-    className={`relative w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
-      ${location.pathname === '/messages' 
-        ? 'bg-[#1E88E5] text-white' 
-        : 'bg-white/80 hover:bg-white text-gray-600'}`}
-  >
-    <Mail
-      className={`w-5 h-5 transition-colors duration-300 ${
-        location.pathname === '/messages'
-          ? 'text-white'
-          : 'group-hover:text-[#1E88E5]'
-      }`}
-    />
-    <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1E88E5] text-white text-xs rounded-full flex items-center justify-center font-bold">
-      3
-    </span>
-  </motion.button>
-
-  {/* Notifications */}
-  <div className="relative" ref={notificationRef}>
+          {/* Events */}
           <motion.button
+            onClick={() => navigate('/events')}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="relative w-11 h-11 rounded-xl bg-white/80 hover:bg-white shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group"
+            className={`relative w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
+      ${location.pathname === '/events'
+                ? 'bg-[#1E88E5] text-white'
+                : 'bg-white/80 hover:bg-white text-gray-600'}`}
           >
-            <Bell className="w-5 h-5 text-gray-600 group-hover:text-[#1E88E5] transition-colors duration-300" />
-            {unreadCount > 0 && (
-              <span className="absolute top-2 right-2 w-2 h-2 bg-[#1E88E5] rounded-full ring-2 ring-white"></span>
-            )}
+            <Calendar
+              className={`w-5 h-5 transition-colors duration-300 ${location.pathname === '/events'
+                  ? 'text-white'
+                  : 'group-hover:text-[#1E88E5]'
+                }`}
+            />
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
           </motion.button>
 
-          {/* Notifications Dropdown */}
-          <AnimatePresence>
-            {showNotifications && (
-              <NotificationsDropdown
-                notifications={notifications}
-                unreadCount={unreadCount}
-                getNotificationTypeStyles={getNotificationTypeStyles}
-              />
-            )}
-          </AnimatePresence>
+          {/* Messages */}
+          <motion.button
+            onClick={() => navigate('/messages')}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
+      ${location.pathname === '/messages'
+                ? 'bg-[#1E88E5] text-white'
+                : 'bg-white/80 hover:bg-white text-gray-600'}`}
+          >
+            <Mail
+              className={`w-5 h-5 transition-colors duration-300 ${location.pathname === '/messages'
+                  ? 'text-white'
+                  : 'group-hover:text-[#1E88E5]'
+                }`}
+            />
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1E88E5] text-white text-xs rounded-full flex items-center justify-center font-bold">
+              3
+            </span>
+          </motion.button>
+
+          {/* Notifications */}
+          <div className="relative" ref={notificationRef}>
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative w-11 h-11 rounded-xl bg-white/80 hover:bg-white shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group"
+            >
+              <Bell className="w-5 h-5 text-gray-600 group-hover:text-[#1E88E5] transition-colors duration-300" />
+              {unreadCount > 0 && (
+                <span className="absolute top-2 right-2 w-2 h-2 bg-[#1E88E5] rounded-full ring-2 ring-white"></span>
+              )}
+            </motion.button>
+
+            {/* Notifications Dropdown */}
+            <AnimatePresence>
+              {showNotifications && (
+                <NotificationsDropdown
+                  notifications={notifications}
+                  unreadCount={unreadCount}
+                  getNotificationTypeStyles={getNotificationTypeStyles}
+                />
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Settings */}
+          <motion.button
+            onClick={() => navigate('/settings')}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className={`w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
+      ${location.pathname === '/settings'
+                ? 'bg-[#1E88E5] text-white'
+                : 'bg-white/80 hover:bg-white text-gray-600'}`}
+          >
+            <Settings
+              className={`w-5 h-5 transition-colors duration-300 ${location.pathname === '/settings'
+                  ? 'text-white'
+                  : 'group-hover:text-[#1E88E5]'
+                }`}
+            />
+          </motion.button>
         </div>
 
-  {/* Settings */}
-  <motion.button
-    onClick={() => navigate('/settings')}
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
-    className={`w-11 h-11 rounded-xl shadow-soft hover:shadow-float transition-all duration-300 flex items-center justify-center group
-      ${location.pathname === '/settings' 
-        ? 'bg-[#1E88E5] text-white' 
-        : 'bg-white/80 hover:bg-white text-gray-600'}`}
-  >
-    <Settings
-      className={`w-5 h-5 transition-colors duration-300 ${
-        location.pathname === '/settings'
-          ? 'text-white'
-          : 'group-hover:text-[#1E88E5]'
-      }`}
-    />
-  </motion.button>
-</div>
 
 
 
-        
 
         {/* Profile */}
         <div className="relative" ref={profileRef}>
