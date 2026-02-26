@@ -132,7 +132,7 @@
 //       if (entry.marks_obtained < 0 || entry.marks_obtained > maxMarks) {
 //         errors[`entry-${index}-marks_obtained`] = `Marks must be between 0 and ${maxMarks}`;
 //       }
-      
+
 //       // Check for duplicate students
 //       const duplicates = resultEntries.filter(e => e.student_id === entry.student_id);
 //       if (duplicates.length > 1 && entry.student_id) {
@@ -224,7 +224,7 @@
 //               <p className="text-xs text-muted-foreground">Choose the exam for these results</p>
 //             </div>
 //           </div>
-          
+
 //           <select
 //             value={selectedExam}
 //             onChange={(e) => {
@@ -619,20 +619,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../lib/supabase';
 import { ExamSchedule } from '../../types/Exam';
 import { Student, GradeScale, ExamResult } from '../../types/results';
-import { 
-  X, 
-  Save, 
-  Plus, 
-  Trash2, 
-  User, 
-  BookOpen, 
-  FileText, 
-  Award, 
-  Target, 
-  AlertCircle, 
-  CheckCircle, 
-  Calendar, 
-  Hash, 
+import {
+  X,
+  Save,
+  Plus,
+  Trash2,
+  User,
+  BookOpen,
+  FileText,
+  Award,
+  Target,
+  AlertCircle,
+  CheckCircle,
+  Calendar,
+  Hash,
   Percent,
   Upload,
   Download,
@@ -677,13 +677,13 @@ const ResultForm: React.FC<ResultFormProps> = ({
   const [resultEntries, setResultEntries] = useState<ResultEntry[]>(
     initialData
       ? [
-          {
-            student_id: initialData.student_id,
-            exam_id: initialData.exam_id,
-            marks_obtained: initialData.marks_obtained,
-            remarks: initialData.remarks,
-          },
-        ]
+        {
+          student_id: initialData.student_id,
+          exam_id: initialData.exam_id,
+          marks_obtained: initialData.marks_obtained,
+          remarks: initialData.remarks,
+        },
+      ]
       : []
   );
   const [classStudents, setClassStudents] = useState<ClassStudent[]>([]);
@@ -743,7 +743,7 @@ const ResultForm: React.FC<ResultFormProps> = ({
           return;
         }
 
-        setClassStudents(data);
+        setClassStudents(data as any as ClassStudent[]);
 
         // Initialize result entries for all students
         const entries: ResultEntry[] = data.map(assignment => ({
@@ -899,7 +899,7 @@ const ResultForm: React.FC<ResultFormProps> = ({
               <p className="text-xs text-muted-foreground">Choose the exam to enter results for all students</p>
             </div>
           </div>
-          
+
           <select
             value={selectedExam}
             onChange={(e) => {
@@ -907,9 +907,8 @@ const ResultForm: React.FC<ResultFormProps> = ({
               setFormErrors({});
             }}
             disabled={!!initialData}
-            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white ${
-              formErrors.exam ? 'border-destructive' : 'border-input'
-            } ${initialData ? 'opacity-60 cursor-not-allowed' : ''}`}
+            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white ${formErrors.exam ? 'border-destructive' : 'border-input'
+              } ${initialData ? 'opacity-60 cursor-not-allowed' : ''}`}
           >
             <option value="">-- Select an Exam --</option>
             {exams.map((exam) => (
@@ -919,7 +918,7 @@ const ResultForm: React.FC<ResultFormProps> = ({
             ))}
           </select>
           {formErrors.exam && (
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="mt-2 text-sm text-destructive flex items-center gap-2"
@@ -946,9 +945,9 @@ const ResultForm: React.FC<ResultFormProps> = ({
               <div className="bg-white rounded-xl p-3 shadow-soft">
                 <p className="text-xs text-muted-foreground mb-1">Date</p>
                 <p className="font-semibold text-foreground text-sm">
-                  {new Date(selectedExamDetails.exam_date).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric' 
+                  {new Date(selectedExamDetails.exam_date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
                   })}
                 </p>
               </div>
@@ -971,7 +970,7 @@ const ResultForm: React.FC<ResultFormProps> = ({
 
         {/* Error Display */}
         {(formErrors.students || formErrors.entries) && !isLoadingStudents && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 flex items-center gap-3"
@@ -1081,9 +1080,8 @@ const ResultForm: React.FC<ResultFormProps> = ({
                                 step="0.01"
                                 value={entry.marks_obtained}
                                 onChange={(e) => updateResultEntry(index, 'marks_obtained', parseFloat(e.target.value) || 0)}
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                                  formErrors[`entry-${index}-marks_obtained`] ? 'border-destructive' : 'border-input'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${formErrors[`entry-${index}-marks_obtained`] ? 'border-destructive' : 'border-input'
+                                  }`}
                                 placeholder={`Max: ${maxMarks}`}
                               />
                             </div>
@@ -1132,15 +1130,14 @@ const ResultForm: React.FC<ResultFormProps> = ({
                                 </div>
                               </div>
                               <div className="text-center">
-                                <div className={`inline-flex items-center px-4 py-2 rounded-xl text-lg font-bold ${
-                                  grade === 'A+' || grade === 'A'
+                                <div className={`inline-flex items-center px-4 py-2 rounded-xl text-lg font-bold ${grade === 'A+' || grade === 'A'
                                     ? 'gradient-primary text-white'
                                     : grade === 'B+' || grade === 'B'
-                                    ? 'bg-green-500 text-white'
-                                    : grade === 'C'
-                                    ? 'bg-yellow-500 text-white'
-                                    : 'bg-destructive text-white'
-                                }`}>
+                                      ? 'bg-green-500 text-white'
+                                      : grade === 'C'
+                                        ? 'bg-yellow-500 text-white'
+                                        : 'bg-destructive text-white'
+                                  }`}>
                                   {grade}
                                 </div>
                                 <div className="text-xs text-muted-foreground mt-2 flex items-center justify-center gap-1">
@@ -1149,11 +1146,10 @@ const ResultForm: React.FC<ResultFormProps> = ({
                                 </div>
                               </div>
                               <div className="text-center">
-                                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium ${
-                                  percentage >= 35
+                                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium ${percentage >= 35
                                     ? 'bg-green-100 text-green-700'
                                     : 'bg-red-100 text-red-700'
-                                }`}>
+                                  }`}>
                                   {percentage >= 35 ? (
                                     <>
                                       <CheckCircle size={14} />
@@ -1179,17 +1175,16 @@ const ResultForm: React.FC<ResultFormProps> = ({
                                   initial={{ width: 0 }}
                                   animate={{ width: `${Math.min(percentage, 100)}%` }}
                                   transition={{ duration: 0.5, ease: "easeOut" }}
-                                  className={`h-2 rounded-full ${
-                                    percentage >= 90
+                                  className={`h-2 rounded-full ${percentage >= 90
                                       ? 'gradient-primary'
                                       : percentage >= 80
-                                      ? 'bg-accent'
-                                      : percentage >= 70
-                                      ? 'bg-green-500'
-                                      : percentage >= 50
-                                      ? 'bg-yellow-500'
-                                      : 'bg-destructive'
-                                  }`}
+                                        ? 'bg-accent'
+                                        : percentage >= 70
+                                          ? 'bg-green-500'
+                                          : percentage >= 50
+                                            ? 'bg-yellow-500'
+                                            : 'bg-destructive'
+                                    }`}
                                 ></motion.div>
                               </div>
                             </div>
@@ -1227,11 +1222,10 @@ const ResultForm: React.FC<ResultFormProps> = ({
             whileTap={{ scale: resultEntries.length === 0 || isSubmitting ? 1 : 0.95 }}
             onClick={handleSubmit}
             disabled={isSubmitting || resultEntries.length === 0}
-            className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${
-              isSubmitting || resultEntries.length === 0
+            className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${isSubmitting || resultEntries.length === 0
                 ? 'bg-muted text-muted-foreground cursor-not-allowed'
                 : 'gradient-primary text-white shadow-glow hover:shadow-float'
-            }`}
+              }`}
           >
             {isSubmitting ? (
               <>

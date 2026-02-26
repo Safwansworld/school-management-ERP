@@ -1,0 +1,18 @@
+﻿src/components/exams/ResultForm.tsx(746,26): error TS2345: Argument of type '{ student_id: any; student_name: any; students: { id: any; full_name: any; roll_number: any; }[]; }[]' is not assignable to parameter of type 'SetStateAction<ClassStudent[]>'.
+  Type '{ student_id: any; student_name: any; students: { id: any; full_name: any; roll_number: any; }[]; }[]' is not assignable to type 'ClassStudent[]'.
+    Type '{ student_id: any; student_name: any; students: { id: any; full_name: any; roll_number: any; }[]; }' is not assignable to type 'ClassStudent'.
+      Types of property 'students' are incompatible.
+        Type '{ id: any; full_name: any; roll_number: any; }[]' is missing the following properties from type '{ id: string; full_name: string; roll_number: string; }': id, full_name, roll_number
+src/pages/classes/ClassStudents.tsx(1183,31): error TS2345: Argument of type '(assignment: Assignment) => void' is not assignable to parameter of type '(value: { student_id: any; class_id: any; classes: { id: any; class_name: any; section: any; }[]; }, index: number, array: { student_id: any; class_id: any; classes: { id: any; class_name: any; section: any; }[]; }[]) => void'.
+  Types of parameters 'assignment' and 'value' are incompatible.
+    Type '{ student_id: any; class_id: any; classes: { id: any; class_name: any; section: any; }[]; }' is not assignable to type 'Assignment'.
+      Types of property 'classes' are incompatible.
+        Type '{ id: any; class_name: any; section: any; }[]' is missing the following properties from type 'ClassInfo': id, class_name, section
+src/pages/dashboard/StudentAnalytics.tsx(3687,33): error TS2339: Property 'type' does not exist on type 'PieLabelRenderProps'.
+src/pages/dashboard/StudentAnalytics.tsx(3687,39): error TS2339: Property 'count' does not exist on type 'PieLabelRenderProps'.
+src/pages/dashboard/StudentAnalytics.tsx(3724,33): error TS2339: Property 'category' does not exist on type 'PieLabelRenderProps'.
+src/pages/dashboard/StudentAnalytics.tsx(3969,33): error TS2339: Property 'genre' does not exist on type 'PieLabelRenderProps'.
+src/pages/events/eventpage.tsx(3815,51): error TS2304: Cannot find name 'isStaff'.
+src/pages/events/eventpage.tsx(3822,29): error TS2304: Cannot find name 'isStaff'.
+src/pages/finance/fees/new/FeeManagementDashboard.tsx(238,63): error TS2322: Type '{ selectedYear: string; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'selectedYear' does not exist on type 'IntrinsicAttributes'.

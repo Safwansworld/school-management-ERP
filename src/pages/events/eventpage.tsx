@@ -3812,14 +3812,14 @@ const EventsPage: React.FC = () => {
     const userId = user?.id || '';
 
     const permissions = useMemo(() => {
-        const canCreate = isAdmin || isTeacher || isStaff;
+        const canCreate = isAdmin || isTeacher;
         const canEdit = (event: Event) => isAdmin || event.created_by === userId;
         const canDelete = (event: Event) => isAdmin || event.created_by === userId;
         const canViewAll = isAdmin;
         const canManageParticipants = isAdmin || isTeacher;
 
         return { canCreate, canEdit, canDelete, canViewAll, canManageParticipants };
-    }, [isAdmin, isTeacher, isStaff, userId]);
+    }, [isAdmin, isTeacher, userId]);
 
     const fetchEvents = useCallback(async () => {
         if (!user) return;
@@ -4861,8 +4861,8 @@ const EventsPage: React.FC = () => {
                                                     </div>
                                                 </div>
                                                 <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${participant.status === 'registered' ? 'bg-yellow-100 text-yellow-800' :
-                                                        participant.status === 'attended' ? 'bg-green-100 text-green-800' :
-                                                            'bg-red-100 text-red-800'
+                                                    participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                                                        'bg-red-100 text-red-800'
                                                     }`}>
                                                     {participant.status}
                                                 </span>

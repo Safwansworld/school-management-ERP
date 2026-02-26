@@ -3340,7 +3340,7 @@ const StudentAnalyticsDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
-              <select 
+              <select
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -3355,7 +3355,7 @@ const StudentAnalyticsDashboard = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Section</label>
-              <select 
+              <select
                 value={selectedSection}
                 onChange={(e) => setSelectedSection(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -3368,7 +3368,7 @@ const StudentAnalyticsDashboard = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Student</label>
-              <select 
+              <select
                 value={selectedStudent}
                 onChange={(e) => setSelectedStudent(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -3381,7 +3381,7 @@ const StudentAnalyticsDashboard = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-              <select 
+              <select
                 value={selectedGender}
                 onChange={(e) => setSelectedGender(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -3393,7 +3393,7 @@ const StudentAnalyticsDashboard = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-              <select 
+              <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -3407,7 +3407,7 @@ const StudentAnalyticsDashboard = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
-              <input 
+              <input
                 type="date"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -3434,11 +3434,10 @@ const StudentAnalyticsDashboard = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === tab.id
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${activeTab === tab.id
                     ? 'border-b-2 border-blue-500 text-blue-600'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -3684,7 +3683,7 @@ const StudentAnalyticsDashboard = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ type, count }) => `${type}: ${count}`}
+                      label={({ type, count }: any) => `${type}: ${count}`}
                       outerRadius={100}
                       fill="#8884d8"
                       dataKey="count"
@@ -3721,7 +3720,7 @@ const StudentAnalyticsDashboard = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ category, value }) => `${category}: ${value}`}
+                      label={({ category, value }: any) => `${category}: ${value}`}
                       outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"
@@ -3920,9 +3919,8 @@ const StudentAnalyticsDashboard = () => {
                         <p className="text-sm text-gray-600">{project.type}</p>
                       </div>
                       <div className="text-right">
-                        <span className={`px-2 py-1 rounded text-xs ${
-                          project.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                        }`}>
+                        <span className={`px-2 py-1 rounded text-xs ${project.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
                           {project.status}
                         </span>
                         {project.score && <p className="text-sm font-medium mt-1">{project.score}/100</p>}
@@ -3966,7 +3964,7 @@ const StudentAnalyticsDashboard = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ genre, value }) => `${genre}: ${value}%`}
+                      label={({ genre, value }: any) => `${genre}: ${value}%`}
                       outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"
@@ -4093,7 +4091,7 @@ const StudentAnalyticsDashboard = () => {
                         <span>₹{item.paid} / ₹{item.amount}</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full ${item.paid === item.amount ? 'bg-green-500' : 'bg-yellow-500'}`}
                           style={{ width: `${(item.paid / item.amount) * 100}%` }}
                         ></div>
@@ -4130,8 +4128,8 @@ const StudentAnalyticsDashboard = () => {
                     >
                       {parentSentiment.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={
-                          entry.name === 'Positive' ? '#10b981' : 
-                          entry.name === 'Neutral' ? '#f59e0b' : '#ef4444'
+                          entry.name === 'Positive' ? '#10b981' :
+                            entry.name === 'Neutral' ? '#f59e0b' : '#ef4444'
                         } />
                       ))}
                     </Pie>
@@ -4151,11 +4149,10 @@ const StudentAnalyticsDashboard = () => {
                     <div key={idx} className="p-3 bg-gray-50 rounded-lg">
                       <div className="flex justify-between items-start mb-1">
                         <p className="font-medium text-gray-900">{msg.parent}</p>
-                        <span className={`px-2 py-1 rounded text-xs ${
-                          msg.type === 'Positive' ? 'bg-green-100 text-green-800' :
-                          msg.type === 'Concern' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
+                        <span className={`px-2 py-1 rounded text-xs ${msg.type === 'Positive' ? 'bg-green-100 text-green-800' :
+                            msg.type === 'Concern' ? 'bg-red-100 text-red-800' :
+                              'bg-gray-100 text-gray-800'
+                          }`}>
                           {msg.type}
                         </span>
                       </div>

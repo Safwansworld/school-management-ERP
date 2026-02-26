@@ -76,14 +76,14 @@
 // export const ClassStudents = () => {
 //   const { classId } = useParams()
 //   const navigate = useNavigate()
-  
+
 //   // State Management
 //   const [classInfo, setClassInfo] = useState<Class | null>(null)
 //   const [students, setStudents] = useState<Student[]>([])
 //   const [loading, setLoading] = useState(true)
 //   const [saving, setSaving] = useState(false)
 //   const [refreshing, setRefreshing] = useState(false)
-  
+
 //   // Filter states
 //   const [searchTerm, setSearchTerm] = useState('')
 //   const [classFilter, setClassFilter] = useState('')
@@ -91,9 +91,9 @@
 //   const [statusFilter, setStatusFilter] = useState('')
 //   const [assignmentFilter, setAssignmentFilter] = useState('')
 //   const [showFilters, setShowFilters] = useState(false)
-  
+
 //   const [selectedStudents, setSelectedStudents] = useState<Set<string>>(new Set())
-  
+
 //   // Reassignment confirmation
 //   const [reassignmentConfirm, setReassignmentConfirm] = useState<ReassignmentConfirmation>({
 //     show: false,
@@ -101,7 +101,7 @@
 //     fromClass: '',
 //     toClass: ''
 //   })
-  
+
 //   // Notification state
 //   const [notification, setNotification] = useState<NotificationState>({
 //     show: false,
@@ -143,7 +143,7 @@
 //       } else {
 //         setRefreshing(true)
 //       }
-      
+
 //       // Get all active students
 //       const { data: allStudents, error: studentsError } = await supabase
 //         .from('students')
@@ -183,7 +183,7 @@
 //       // Mark students with proper assignment status
 //       const studentsWithAssignment = allStudents.map(student => {
 //         const assignment = assignmentMap.get(student.id)
-        
+
 //         let assignmentStatus: 'assigned_here' | 'assigned_elsewhere' | 'not_assigned'
 //         let currentAssignment = undefined
 
@@ -206,7 +206,7 @@
 //       })
 
 //       setStudents(studentsWithAssignment)
-      
+
 //       // Pre-select only students assigned to this class
 //       const assignedToThisClass = new Set(
 //         studentsWithAssignment
@@ -214,7 +214,7 @@
 //           .map(s => s.id)
 //       )
 //       setSelectedStudents(assignedToThisClass)
-      
+
 //     } catch (error) {
 //       console.error('Error loading students:', error)
 //       showNotification('error', 'Loading Failed', 'Failed to load students. Please try again.')
@@ -262,7 +262,7 @@
 //       newSelection.add(reassignmentConfirm.student.id)
 //       setSelectedStudents(newSelection)
 //     }
-    
+
 //     setReassignmentConfirm({
 //       show: false,
 //       student: null,
@@ -277,7 +277,7 @@
 
 //     try {
 //       setSaving(true)
-      
+
 //       // Get current assignments for this class
 //       const { data: currentAssignments } = await supabase
 //         .from('class_assignments')
@@ -285,11 +285,11 @@
 //         .eq('class_id', classId)
 
 //       const currentStudentIds = new Set(currentAssignments?.map(a => a.student_id) || [])
-      
+
 //       // Find students to add and remove
 //       const toAdd = Array.from(selectedStudents).filter(id => !currentStudentIds.has(id))
 //       const toRemove = Array.from(currentStudentIds).filter(id => !selectedStudents.has(id))
-      
+
 //       // Handle reassignments (remove from other classes first)
 //       const studentsToReassign = toAdd.filter(studentId => {
 //         const student = students.find(s => s.id === studentId)
@@ -303,11 +303,11 @@
 //             .from('class_assignments')
 //             .delete()
 //             .eq('student_id', studentId)
-          
+
 //           if (removeError) throw removeError
 //         }
 //       }
-      
+
 //       // Add new assignments
 //       if (toAdd.length > 0) {
 //         const newAssignments = toAdd.map(studentId => ({
@@ -315,14 +315,14 @@
 //           student_id: studentId,
 //           academic_year: classInfo.academic_year
 //         }))
-        
+
 //         const { error: addError } = await supabase
 //           .from('class_assignments')
 //           .insert(newAssignments)
-        
+
 //         if (addError) throw addError
 //       }
-      
+
 //       // Remove old assignments from this class
 //       if (toRemove.length > 0) {
 //         const { error: removeError } = await supabase
@@ -330,29 +330,29 @@
 //           .delete()
 //           .eq('class_id', classId)
 //           .in('student_id', toRemove)
-        
+
 //         if (removeError) throw removeError
 //       }
-      
+
 //       // Update class current strength
 //       const { error: updateError } = await supabase
 //         .from('classes')
 //         .update({ current_strength: selectedStudents.size })
 //         .eq('id', classId)
-      
+
 //       if (updateError) throw updateError
-      
+
 //       let message = `Successfully updated student assignments for Class ${classInfo.class_name}-${classInfo.section}`
-      
+
 //       if (studentsToReassign.length > 0) {
 //         message += `. ${studentsToReassign.length} student(s) were moved from other classes.`
 //       }
-      
+
 //       showNotification('success', 'Assignments Saved', message)
-      
+
 //       // Reload to reflect changes
 //       setTimeout(() => loadStudents(false), 1000)
-      
+
 //     } catch (error) {
 //       console.error('Error saving assignments:', error)
 //       showNotification('error', 'Save Failed', 'Failed to save student assignments. Please try again.')
@@ -365,16 +365,16 @@
 //   const filteredStudents = students.filter(student => {
 //     const matchesSearch = student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 //                          student.admission_number.toLowerCase().includes(searchTerm.toLowerCase())
-    
+
 //     const matchesClass = !classFilter || student.class_name === classFilter
 //     const matchesSection = !sectionFilter || student.section === sectionFilter
 //     const matchesStatus = !statusFilter || student.status === statusFilter
-    
+
 //     const matchesAssignment = !assignmentFilter || 
 //                              (assignmentFilter === 'assigned_here' && student.assignmentStatus === 'assigned_here') ||
 //                              (assignmentFilter === 'assigned_elsewhere' && student.assignmentStatus === 'assigned_elsewhere') ||
 //                              (assignmentFilter === 'not_assigned' && student.assignmentStatus === 'not_assigned')
-    
+
 //     return matchesSearch && matchesClass && matchesSection && matchesStatus && matchesAssignment
 //   })
 
@@ -396,7 +396,7 @@
 //   const assignedElsewhereCount = filteredStudents.filter(s => s.assignmentStatus === 'assigned_elsewhere').length
 //   const notAssignedCount = filteredStudents.filter(s => s.assignmentStatus === 'not_assigned').length
 //   const selectedCount = selectedStudents.size
-  
+
 //   return (
 //     <div
 //       className="min-h-screen bg-gray-120"
@@ -472,17 +472,17 @@
 //                 <div className="flex items-center justify-center w-16 h-16 mx-auto bg-yellow-100 rounded-full mb-6">
 //                   <AlertTriangleIcon className="h-8 w-8 text-yellow-600" />
 //                 </div>
-                
+
 //                 <h3 className="text-xl font-bold text-gray-900 mb-2">
 //                   Student Reassignment
 //                 </h3>
-                
+
 //                 <div className="mb-6">
 //                   <p className="text-gray-600 mb-4">
 //                     <strong>{reassignmentConfirm.student?.full_name}</strong> is currently assigned to{' '}
 //                     <strong>Class {reassignmentConfirm.fromClass}</strong>.
 //                   </p>
-                  
+
 //                   <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4">
 //                     <div className="flex items-center justify-center space-x-2 text-sm">
 //                       <span className="text-gray-700">From:</span>
@@ -495,12 +495,12 @@
 //                       </span>
 //                     </div>
 //                   </div>
-                  
+
 //                   <p className="text-sm text-gray-600">
 //                     Do you want to move this student to <strong>Class {reassignmentConfirm.toClass}</strong>?
 //                   </p>
 //                 </div>
-                
+
 //                 <div className="flex justify-center space-x-4">
 //                   <button
 //                     onClick={() => handleReassignmentConfirm(false)}
@@ -531,11 +531,11 @@
 //                 >
 //                   <ArrowLeftIcon className="h-6 w-6" />
 //                 </button>
-                
+
 //                 <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3">
 //                   <Users2Icon className="h-8 w-8 text-white" />
 //                 </div>
-                
+
 //                 <div>
 //                   {classInfo ? (
 //                     <>
@@ -570,7 +570,7 @@
 //                   <RefreshCwIcon className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
 //                   <span>Refresh</span>
 //                 </button>
-                
+
 //                 <button
 //                   onClick={handleSaveAssignments}
 //                   disabled={saving || !classInfo}
@@ -644,7 +644,7 @@
 //                   onChange={(e) => setSearchTerm(e.target.value)}
 //                   className="w-full pl-12 pr-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm font-medium"
 //                 />
-                
+
 //               </div>
 //               <button
 //                   onClick={() => loadStudents(false)}
@@ -654,8 +654,8 @@
 //                   <RefreshCwIcon className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
 //                   <span>Refresh</span>
 //                 </button>
-                
-                
+
+
 //               <button
 //                 onClick={() => setShowFilters(!showFilters)}
 //                 className="flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-200 font-medium"
@@ -672,7 +672,7 @@
 //                   <span>{saving ? 'Saving...' : 'Save Assignments'}</span>
 //                 </button>
 //             </div>
-            
+
 //             {/* Enhanced Filter Row */}
 //             {showFilters && (
 //               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 p-4 bg-gray-50 rounded-xl">
@@ -854,7 +854,7 @@
 //                           className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
 //                         />
 //                       </td>
-                      
+
 //                       <td className="px-6 py-4 whitespace-nowrap">
 //                         <div className="flex items-center">
 //                           <div className="h-12 w-12 flex-shrink-0">
@@ -881,7 +881,7 @@
 //                           </div>
 //                         </div>
 //                       </td>
-                      
+
 //                       <td className="px-6 py-4 whitespace-nowrap">
 //                         <div className="text-sm font-semibold text-gray-900">
 //                           Class {student.class_name} {student.section && `- ${student.section}`}
@@ -891,7 +891,7 @@
 //                           Roll No: {student.roll_number}
 //                         </div>
 //                       </td>
-                      
+
 //                       <td className="px-6 py-4 whitespace-nowrap">
 //                         <span className={`inline-flex items-center px-3 py-1 text-xs font-bold rounded-full ${
 //                           student.status === 'active'
@@ -911,7 +911,7 @@
 //                           )}
 //                         </span>
 //                       </td>
-                      
+
 //                       <td className="px-6 py-4 whitespace-nowrap">
 //                         <div className="flex items-center">
 //                           {student.assignmentStatus === 'assigned_here' ? (
@@ -973,7 +973,7 @@
 //                   </div>
 //                 </div>
 //               </div>
-              
+
 //               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
 //                 <div className="text-blue-700 bg-blue-100 px-3 py-2 rounded-lg text-center font-medium">
 //                   <div className="text-lg font-bold">{filteredStudents.length}</div>
@@ -1001,7 +1001,7 @@
 // }
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { 
+import {
   ArrowLeftIcon,
   SearchIcon,
   UsersIcon,
@@ -1064,7 +1064,7 @@ interface ClassInfo {
 interface Assignment {
   student_id: string
   class_id: string
-  classes: ClassInfo  // This should be an object, not an array
+  classes: any  // Supabase returns an array or object depending on join semantics
 }
 
 interface NotificationState {
@@ -1084,14 +1084,14 @@ interface ReassignmentConfirmation {
 export const ClassStudents = () => {
   const { classId } = useParams()
   const navigate = useNavigate()
-  
+
   // State Management
   const [classInfo, setClassInfo] = useState<Class | null>(null)
   const [students, setStudents] = useState<Student[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
-  
+
   // Filter states
   const [searchTerm, setSearchTerm] = useState('')
   const [classFilter, setClassFilter] = useState('')
@@ -1099,9 +1099,9 @@ export const ClassStudents = () => {
   const [statusFilter, setStatusFilter] = useState('')
   const [assignmentFilter, setAssignmentFilter] = useState('')
   const [showFilters, setShowFilters] = useState(false)
-  
+
   const [selectedStudents, setSelectedStudents] = useState<Set<string>>(new Set())
-  
+
   // Reassignment confirmation
   const [reassignmentConfirm, setReassignmentConfirm] = useState<ReassignmentConfirmation>({
     show: false,
@@ -1109,7 +1109,7 @@ export const ClassStudents = () => {
     fromClass: '',
     toClass: ''
   })
-  
+
   // Notification state
   const [notification, setNotification] = useState<NotificationState>({
     show: false,
@@ -1151,7 +1151,7 @@ export const ClassStudents = () => {
       } else {
         setRefreshing(true)
       }
-      
+
       // Get all active students
       const { data: allStudents, error: studentsError } = await supabase
         .from('students')
@@ -1180,18 +1180,18 @@ export const ClassStudents = () => {
 
       // Create assignment map - FIX: Access object properties correctly
       const assignmentMap = new Map()
-      allAssignments?.forEach((assignment: Assignment) => {
+      allAssignments?.forEach((assignment: any) => {
         assignmentMap.set(assignment.student_id, {
           classId: assignment.class_id,
-          className: assignment.classes.class_name,  // Fixed: was assignment.classes.name
-          section: assignment.classes.section
+          className: assignment.classes?.class_name || (Array.isArray(assignment.classes) && assignment.classes[0]?.class_name),
+          section: assignment.classes?.section || (Array.isArray(assignment.classes) && assignment.classes[0]?.section)
         })
       })
 
       // Mark students with proper assignment status
       const studentsWithAssignment = allStudents.map(student => {
         const assignment = assignmentMap.get(student.id)
-        
+
         let assignmentStatus: 'assigned_here' | 'assigned_elsewhere' | 'not_assigned'
         let currentAssignment = undefined
 
@@ -1214,7 +1214,7 @@ export const ClassStudents = () => {
       })
 
       setStudents(studentsWithAssignment)
-      
+
       // Pre-select only students assigned to this class
       const assignedToThisClass = new Set(
         studentsWithAssignment
@@ -1222,7 +1222,7 @@ export const ClassStudents = () => {
           .map(s => s.id)
       )
       setSelectedStudents(assignedToThisClass)
-      
+
     } catch (error) {
       console.error('Error loading students:', error)
       showNotification('error', 'Loading Failed', 'Failed to load students. Please try again.')
@@ -1267,7 +1267,7 @@ export const ClassStudents = () => {
       newSelection.add(reassignmentConfirm.student.id)
       setSelectedStudents(newSelection)
     }
-    
+
     setReassignmentConfirm({
       show: false,
       student: null,
@@ -1281,17 +1281,17 @@ export const ClassStudents = () => {
 
     try {
       setSaving(true)
-      
+
       const { data: currentAssignments } = await supabase
         .from('class_assignments')
         .select('student_id')
         .eq('class_id', classId)
 
       const currentStudentIds = new Set(currentAssignments?.map(a => a.student_id) || [])
-      
+
       const toAdd = Array.from(selectedStudents).filter(id => !currentStudentIds.has(id))
       const toRemove = Array.from(currentStudentIds).filter(id => !selectedStudents.has(id))
-      
+
       const studentsToReassign = toAdd.filter(studentId => {
         const student = students.find(s => s.id === studentId)
         return student?.assignmentStatus === 'assigned_elsewhere'
@@ -1303,52 +1303,52 @@ export const ClassStudents = () => {
             .from('class_assignments')
             .delete()
             .eq('student_id', studentId)
-          
+
           if (removeError) throw removeError
         }
       }
-      
+
       if (toAdd.length > 0) {
         const newAssignments = toAdd.map(studentId => ({
           class_id: classId,
           student_id: studentId,
           academic_year: classInfo.academic_year
         }))
-        
+
         const { error: addError } = await supabase
           .from('class_assignments')
           .insert(newAssignments)
-        
+
         if (addError) throw addError
       }
-      
+
       if (toRemove.length > 0) {
         const { error: removeError } = await supabase
           .from('class_assignments')
           .delete()
           .eq('class_id', classId)
           .in('student_id', toRemove)
-        
+
         if (removeError) throw removeError
       }
-      
+
       const { error: updateError } = await supabase
         .from('classes')
         .update({ current_strength: selectedStudents.size })
         .eq('id', classId)
-      
+
       if (updateError) throw updateError
-      
+
       let message = `Successfully updated student assignments for Class ${classInfo.class_name}-${classInfo.section}`
-      
+
       if (studentsToReassign.length > 0) {
         message += `. ${studentsToReassign.length} student(s) were moved from other classes.`
       }
-      
+
       showNotification('success', 'Assignments Saved', message)
-      
+
       setTimeout(() => loadStudents(false), 1000)
-      
+
     } catch (error) {
       console.error('Error saving assignments:', error)
       showNotification('error', 'Save Failed', 'Failed to save student assignments. Please try again.')
@@ -1360,17 +1360,17 @@ export const ClassStudents = () => {
   // [Keep filter logic exactly as is]
   const filteredStudents = students.filter(student => {
     const matchesSearch = student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         student.admission_number.toLowerCase().includes(searchTerm.toLowerCase())
-    
+      student.admission_number.toLowerCase().includes(searchTerm.toLowerCase())
+
     const matchesClass = !classFilter || student.class_name === classFilter
     const matchesSection = !sectionFilter || student.section === sectionFilter
     const matchesStatus = !statusFilter || student.status === statusFilter
-    
-    const matchesAssignment = !assignmentFilter || 
-                             (assignmentFilter === 'assigned_here' && student.assignmentStatus === 'assigned_here') ||
-                             (assignmentFilter === 'assigned_elsewhere' && student.assignmentStatus === 'assigned_elsewhere') ||
-                             (assignmentFilter === 'not_assigned' && student.assignmentStatus === 'not_assigned')
-    
+
+    const matchesAssignment = !assignmentFilter ||
+      (assignmentFilter === 'assigned_here' && student.assignmentStatus === 'assigned_here') ||
+      (assignmentFilter === 'assigned_elsewhere' && student.assignmentStatus === 'assigned_elsewhere') ||
+      (assignmentFilter === 'not_assigned' && student.assignmentStatus === 'not_assigned')
+
     return matchesSearch && matchesClass && matchesSection && matchesStatus && matchesAssignment
   })
 
@@ -1389,52 +1389,47 @@ export const ClassStudents = () => {
   const assignedElsewhereCount = filteredStudents.filter(s => s.assignmentStatus === 'assigned_elsewhere').length
   const notAssignedCount = filteredStudents.filter(s => s.assignmentStatus === 'not_assigned').length
   const selectedCount = selectedStudents.size
-  
+
   return (
     <div className="min-h-screen bg-[#F6F9FC] p-8">
       <div className="max-w-[1600px] mx-auto space-y-7">
         {/* Enhanced Notification */}
         {notification.show && (
-          <div className={`fixed top-4 right-4 z-50 max-w-md w-full transition-all duration-500 transform ${
-            notification.show ? 'translate-x-0 scale-100 opacity-100' : 'translate-x-full scale-95 opacity-0'
-          }`}>
-            <div className={`rounded-[20px] shadow-float border p-5 backdrop-blur-lg ${
-              notification.type === 'success' ? 'bg-emerald-50 border-emerald-200' :
-              notification.type === 'error' ? 'bg-red-50 border-red-200' :
-              notification.type === 'warning' ? 'bg-amber-50 border-amber-200' :
-              'bg-blue-50 border-blue-200'
+          <div className={`fixed top-4 right-4 z-50 max-w-md w-full transition-all duration-500 transform ${notification.show ? 'translate-x-0 scale-100 opacity-100' : 'translate-x-full scale-95 opacity-0'
             }`}>
+            <div className={`rounded-[20px] shadow-float border p-5 backdrop-blur-lg ${notification.type === 'success' ? 'bg-emerald-50 border-emerald-200' :
+                notification.type === 'error' ? 'bg-red-50 border-red-200' :
+                  notification.type === 'warning' ? 'bg-amber-50 border-amber-200' :
+                    'bg-blue-50 border-blue-200'
+              }`}>
               <div className="flex items-start gap-3">
-                <div className={`rounded-full p-2 ${
-                  notification.type === 'success' ? 'bg-emerald-100' :
-                  notification.type === 'error' ? 'bg-red-100' :
-                  notification.type === 'warning' ? 'bg-amber-100' :
-                  'bg-blue-100'
-                }`}>
+                <div className={`rounded-full p-2 ${notification.type === 'success' ? 'bg-emerald-100' :
+                    notification.type === 'error' ? 'bg-red-100' :
+                      notification.type === 'warning' ? 'bg-amber-100' :
+                        'bg-blue-100'
+                  }`}>
                   {notification.type === 'success' && <CheckCircleIcon className="h-5 w-5 text-emerald-600" />}
                   {notification.type === 'error' && <AlertCircleIcon className="h-5 w-5 text-red-600" />}
                   {notification.type === 'warning' && <AlertCircleIcon className="h-5 w-5 text-amber-600" />}
                   {notification.type === 'info' && <InfoIcon className="h-5 w-5 text-blue-600" />}
                 </div>
                 <div className="flex-1">
-                  <h3 
-                    className={`mb-1 ${
-                      notification.type === 'success' ? 'text-emerald-900' :
-                      notification.type === 'error' ? 'text-red-900' :
-                      notification.type === 'warning' ? 'text-amber-900' :
-                      'text-blue-900'
-                    }`}
+                  <h3
+                    className={`mb-1 ${notification.type === 'success' ? 'text-emerald-900' :
+                        notification.type === 'error' ? 'text-red-900' :
+                          notification.type === 'warning' ? 'text-amber-900' :
+                            'text-blue-900'
+                      }`}
                     style={{ fontSize: '14px', fontWeight: 600 }}
                   >
                     {notification.title}
                   </h3>
-                  <p 
-                    className={`${
-                      notification.type === 'success' ? 'text-emerald-800' :
-                      notification.type === 'error' ? 'text-red-800' :
-                      notification.type === 'warning' ? 'text-amber-800' :
-                      'text-blue-800'
-                    }`}
+                  <p
+                    className={`${notification.type === 'success' ? 'text-emerald-800' :
+                        notification.type === 'error' ? 'text-red-800' :
+                          notification.type === 'warning' ? 'text-amber-800' :
+                            'text-blue-800'
+                      }`}
                     style={{ fontSize: '13px', fontWeight: 400 }}
                   >
                     {notification.message}
@@ -1442,12 +1437,11 @@ export const ClassStudents = () => {
                 </div>
                 <button
                   onClick={() => setNotification(prev => ({ ...prev, show: false }))}
-                  className={`rounded-full p-1 transition-colors ${
-                    notification.type === 'success' ? 'text-emerald-500 hover:bg-emerald-100' :
-                    notification.type === 'error' ? 'text-red-500 hover:bg-red-100' :
-                    notification.type === 'warning' ? 'text-amber-500 hover:bg-amber-100' :
-                    'text-blue-500 hover:bg-blue-100'
-                  }`}
+                  className={`rounded-full p-1 transition-colors ${notification.type === 'success' ? 'text-emerald-500 hover:bg-emerald-100' :
+                      notification.type === 'error' ? 'text-red-500 hover:bg-red-100' :
+                        notification.type === 'warning' ? 'text-amber-500 hover:bg-amber-100' :
+                          'text-blue-500 hover:bg-blue-100'
+                    }`}
                 >
                   <XIcon className="h-4 w-4" />
                 </button>
@@ -1464,23 +1458,23 @@ export const ClassStudents = () => {
                 <div className="flex items-center justify-center w-16 h-16 mx-auto bg-amber-50 rounded-full mb-6">
                   <AlertTriangleIcon className="h-8 w-8 text-amber-600" />
                 </div>
-                
-                <h3 
+
+                <h3
                   className="text-gray-900 mb-2"
                   style={{ fontSize: '20px', fontWeight: 600 }}
                 >
                   Student Reassignment
                 </h3>
-                
+
                 <div className="mb-6">
-                  <p 
+                  <p
                     className="text-gray-600 mb-4"
                     style={{ fontSize: '14px' }}
                   >
                     <strong>{reassignmentConfirm.student?.full_name}</strong> is currently assigned to{' '}
                     <strong>Class {reassignmentConfirm.fromClass}</strong>.
                   </p>
-                  
+
                   <div className="bg-amber-50 border border-amber-200 rounded-[16px] p-4 mb-4">
                     <div className="flex items-center justify-center gap-2 text-sm">
                       <span className="text-gray-700">From:</span>
@@ -1493,15 +1487,15 @@ export const ClassStudents = () => {
                       </span>
                     </div>
                   </div>
-                  
-                  <p 
+
+                  <p
                     className="text-gray-600"
                     style={{ fontSize: '13px' }}
                   >
                     Do you want to move this student to <strong>Class {reassignmentConfirm.toClass}</strong>?
                   </p>
                 </div>
-                
+
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => handleReassignmentConfirm(false)}
@@ -1572,12 +1566,12 @@ export const ClassStudents = () => {
                 <span>{saving ? 'Saving...' : 'Save Assignments'}</span>
               </button>
             </div>
-            
+
             {/* Enhanced Filter Row */}
             {showFilters && (
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 p-5 bg-gray-50 rounded-[16px]">
                 <div>
-                  <label 
+                  <label
                     className="flex items-center text-gray-700 mb-2"
                     style={{ fontSize: '13px', fontWeight: 600 }}
                   >
@@ -1598,7 +1592,7 @@ export const ClassStudents = () => {
                 </div>
 
                 <div>
-                  <label 
+                  <label
                     className="flex items-center text-gray-700 mb-2"
                     style={{ fontSize: '13px', fontWeight: 600 }}
                   >
@@ -1619,7 +1613,7 @@ export const ClassStudents = () => {
                 </div>
 
                 <div>
-                  <label 
+                  <label
                     className="flex items-center text-gray-700 mb-2"
                     style={{ fontSize: '13px', fontWeight: 600 }}
                   >
@@ -1639,7 +1633,7 @@ export const ClassStudents = () => {
                 </div>
 
                 <div>
-                  <label 
+                  <label
                     className="flex items-center text-gray-700 mb-2"
                     style={{ fontSize: '13px', fontWeight: 600 }}
                   >
@@ -1725,7 +1719,7 @@ export const ClassStudents = () => {
                           }}
                           className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
                         />
-                        <span 
+                        <span
                           className="text-gray-700 uppercase tracking-wider"
                           style={{ fontSize: '12px', fontWeight: 600 }}
                         >
@@ -1733,7 +1727,7 @@ export const ClassStudents = () => {
                         </span>
                       </div>
                     </th>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-gray-700 uppercase tracking-wider"
                       style={{ fontSize: '12px', fontWeight: 600 }}
                     >
@@ -1742,7 +1736,7 @@ export const ClassStudents = () => {
                         <span>Student</span>
                       </div>
                     </th>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-gray-700 uppercase tracking-wider"
                       style={{ fontSize: '12px', fontWeight: 600 }}
                     >
@@ -1751,7 +1745,7 @@ export const ClassStudents = () => {
                         <span>Current Class</span>
                       </div>
                     </th>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-gray-700 uppercase tracking-wider"
                       style={{ fontSize: '12px', fontWeight: 600 }}
                     >
@@ -1760,7 +1754,7 @@ export const ClassStudents = () => {
                         <span>Status</span>
                       </div>
                     </th>
-                    <th 
+                    <th
                       className="px-6 py-4 text-left text-gray-700 uppercase tracking-wider"
                       style={{ fontSize: '12px', fontWeight: 600 }}
                     >
@@ -1773,13 +1767,12 @@ export const ClassStudents = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredStudents.map((student, index) => (
-                    <tr 
-                      key={student.id} 
-                      className={`hover:bg-blue-50 transition-all cursor-pointer ${
-                        selectedStudents.has(student.id) ? 'bg-blue-50' : 
-                        student.assignmentStatus === 'assigned_elsewhere' ? 'bg-amber-50/30' :
-                        'bg-white hover:bg-gray-50'
-                      }`}
+                    <tr
+                      key={student.id}
+                      className={`hover:bg-blue-50 transition-all cursor-pointer ${selectedStudents.has(student.id) ? 'bg-blue-50' :
+                          student.assignmentStatus === 'assigned_elsewhere' ? 'bg-amber-50/30' :
+                            'bg-white hover:bg-gray-50'
+                        }`}
                       onClick={() => handleStudentToggle(student)}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -1790,7 +1783,7 @@ export const ClassStudents = () => {
                           className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
                         />
                       </td>
-                      
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="h-12 w-12 flex-shrink-0">
@@ -1807,13 +1800,13 @@ export const ClassStudents = () => {
                             )}
                           </div>
                           <div className="ml-4">
-                            <div 
+                            <div
                               className="text-gray-900"
                               style={{ fontSize: '14px', fontWeight: 600 }}
                             >
                               {student.full_name}
                             </div>
-                            <div 
+                            <div
                               className="text-gray-600 flex items-center"
                               style={{ fontSize: '12px' }}
                             >
@@ -1823,15 +1816,15 @@ export const ClassStudents = () => {
                           </div>
                         </div>
                       </td>
-                      
+
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div 
+                        <div
                           className="text-gray-900"
                           style={{ fontSize: '14px', fontWeight: 600 }}
                         >
                           Class {student.class_name} {student.section && `- ${student.section}`}
                         </div>
-                        <div 
+                        <div
                           className="text-gray-600 flex items-center"
                           style={{ fontSize: '12px' }}
                         >
@@ -1839,13 +1832,12 @@ export const ClassStudents = () => {
                           Roll No: {student.roll_number}
                         </div>
                       </td>
-                      
+
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full font-medium ${
-                          student.status === 'active'
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full font-medium ${student.status === 'active'
                             ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                             : 'bg-red-100 text-red-800 border border-red-200'
-                        }`} style={{ fontSize: '12px' }}>
+                          }`} style={{ fontSize: '12px' }}>
                           {student.status === 'active' ? (
                             <>
                               <UserCheckIcon className="h-3 w-3 mr-1" />
@@ -1859,7 +1851,7 @@ export const ClassStudents = () => {
                           )}
                         </span>
                       </td>
-                      
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           {student.assignmentStatus === 'assigned_here' ? (
@@ -1915,17 +1907,17 @@ export const ClassStudents = () => {
                     <Users2Icon className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
-                    <p 
+                    <p
                       className="text-blue-900"
                       style={{ fontSize: '14px', fontWeight: 600 }}
                     >
                       {selectedCount} students selected for assignment
                     </p>
-                    <p 
+                    <p
                       className="text-blue-700"
                       style={{ fontSize: '12px' }}
                     >
-                      {selectedCount > (classInfo?.capacity || 0) ? 
+                      {selectedCount > (classInfo?.capacity || 0) ?
                         `⚠️ Exceeds capacity by ${selectedCount - (classInfo?.capacity || 0)}` :
                         `${(classInfo?.capacity || 0) - selectedCount} spots remaining`
                       }
@@ -1933,7 +1925,7 @@ export const ClassStudents = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="text-blue-700 bg-blue-100 px-3 py-2 rounded-lg text-center font-medium">
                   <div style={{ fontSize: '18px', fontWeight: 700 }}>{filteredStudents.length}</div>

@@ -27,7 +27,7 @@ interface FeeComponent {
   dueDate: string;
 }
 
-const FeeStructureTable = () => {
+const FeeStructureTable = ({ selectedYear }: { selectedYear?: string }) => {
   const [structures, setStructures] = useState<FeeStructure[]>([
     {
       id: '1',
@@ -116,11 +116,10 @@ const FeeStructureTable = () => {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-lg font-semibold text-gray-900">{structure.name}</h3>
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold border ${
-                        structure.status === 'Active'
+                      className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold border ${structure.status === 'Active'
                           ? 'bg-green-50 text-green-700 border-green-200'
                           : 'bg-gray-50 text-gray-700 border-gray-200'
-                      }`}
+                        }`}
                     >
                       {structure.status === 'Active' ? (
                         <CheckCircle className="w-3 h-3 mr-1" />
@@ -135,8 +134,8 @@ const FeeStructureTable = () => {
                     {structure.applicableFor === 'All'
                       ? 'All Students'
                       : structure.applicableFor === 'SpecificGrade'
-                      ? `${structure.applicableGrades?.join(', ')}`
-                      : 'Student Group'}
+                        ? `${structure.applicableGrades?.join(', ')}`
+                        : 'Student Group'}
                   </p>
                 </div>
 
